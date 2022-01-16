@@ -44,6 +44,9 @@ js
 style.css
 state.buttons)
 state.fe3Mesh.flags)
+ReadmeInstructions.txt
+README.txt
+.gitignore
 
 # Yarn
 yarn.lock
