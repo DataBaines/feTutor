@@ -7,7 +7,7 @@ import { IAppState } from '../Interfaces/IState'
 
 const ThreeControl = (props) => {
     return (
-        <div className="threecontrolform">
+        <div className="formcontainer">
             <ThreeControlForm submitHandler={props.submitClick} formValues={props.threeControlProps}/>
         </div> 
     )

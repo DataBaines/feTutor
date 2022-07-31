@@ -28,53 +28,49 @@ const MultipleNodes = (props) => {
     const handleSubmit = props.submitHandler
 
     return (
+        <div className="formcontainer">
+            <Form initialValues={initData} onSubmit={props.submitHandler}> 
+            {({ handleSubmit, submitting, values }) => (
 
-        <Form
-        initialValues={initData}
-        onSubmit={props.submitHandler}
-        > 
-         
-        {({ handleSubmit, submitting, values }) => (
+                <form onSubmit={handleSubmit}>
+                    <p>Divide the mesh into sections</p>
+                    <div className='siderow'>
+                        <div className="row-lh">
+                            <label>X Axis</label>
+                        </div>
+                        <div className="row-rh">
+                            <Field 
+                                name="xaxis" 
+                                component={renderfield} 
+                                type="number" 
+                                label="X Axis section count" 
+                                validate={composeValidators(required, mustBeNumber, maxValue(10), minValue(3))} 
+                                parse={value => parseDecimal(value)} />
+                        </div>
+                    </div>
+                    <div className='siderow'>
+                        <div className="row-lh">
+                            <label>Y Axis</label>
+                        </div>
+                        <div className="row-rh">
+                            <Field 
+                                name="yaxis" 
+                                component={renderfield} 
+                                type="number" 
+                                label="Y axis section count" 
+                                validate={composeValidators(required, mustBeNumber, maxValue(10), minValue(3))} 
+                                parse={value => parseDecimal(value)} />
+                        </div>        
+                    </div>
+                    <div className='siderow'>
+                        <button type="submit" disabled={submitting}>Submit</button>
+                        {/* <pre>{ JSON.stringify(values, undefined, 2) }</pre> */}
+                    </div>
+                </form>
+            )}
+        </Form>
+    </div>
 
-            <form onSubmit={handleSubmit}>
-                <p>Divide the mesh into sections</p>
-                <div>
-                    <label>X Axis</label>
-                    <Field 
-                        name="xaxis" 
-                        component={renderfield} 
-                        type="number" 
-                        label="X Axis section count" 
-                        validate={composeValidators(required, mustBeNumber, maxValue(10), minValue(3))} 
-                        parse={value => parseDecimal(value)} />
-                </div>
-                <div>
-                    <label>Y Axis</label>
-                    <Field 
-                        name="yaxis" 
-                        component={renderfield} 
-                        type="number" 
-                        label="Y axis section count" 
-                        validate={composeValidators(required, mustBeNumber, maxValue(10), minValue(3))} 
-                        parse={value => parseDecimal(value)} />
-                </div>        
-                <button type="submit" disabled={submitting}>Submit</button>
-                {/* <pre>{ JSON.stringify(values, undefined, 2) }</pre> */}
-            </form>
-        )}
-    </Form>
-
-        // <form onSubmit={handleSubmit}>
-        //     <div>
-        //         <label htmlFor="xnodeqty">X Node Quantity (Incl. corners):</label>
-        //         <input type="number" id="xnodeqty" name="xnodeqty" min="3" max="10" />
-        //     </div> 
-        //     <div>
-        //         <label htmlFor="ynodeqty">Y Node Quantity (Incl. corners):</label>
-        //         <input type="number" id="ynodeqty" name="ynodeqty" min="3" max="10" />
-        //     </div> 
-        //     <input type="submit"/>
-        // </form>
     )
 }
 

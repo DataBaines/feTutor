@@ -28,40 +28,46 @@ const renderfield = ({ input, label, type, meta: { touched, error, warning } }) 
 
 const HWCreateForm = props => {
     return(    
-        <Form
-            initialValues={initData}
-            onSubmit={props.submitHandler}
-            > 
-             
-            {({ handleSubmit, submitting, values }) => (
-
-                <form onSubmit={handleSubmit}
-                    >
-                    <div>
-                        <label>Height</label>
-                        <Field 
-                            name="height" 
-                            component={renderfield} 
-                            type="number" 
-                            label="Height" 
-                            validate={composeValidators(required, mustBeNumber, maxValue(1000), minValue(-1000))} 
-                            parse={value => parseDecimal(value)} />
-                    </div>
-                    <div>
-                        <label>Width</label>
-                        <Field 
-                            name="width" 
-                            component={renderfield} 
-                            type="number" 
-                            label="Width" 
-                            validate={composeValidators(required, mustBeNumber, maxValue(1000), minValue(-1000))} 
-                            parse={value => parseDecimal(value)} />
-                    </div>        
-                    <button type="submit" disabled={submitting}>Submit</button>
-                    {/* <pre>{ JSON.stringify(values, undefined, 2) }</pre> */}
-                </form>
-            )}
-        </Form>
+        <div className="formcontainer">
+            <Form initialValues={initData} onSubmit={props.submitHandler}>     
+                {({ handleSubmit, submitting, values }) => (
+                    <form onSubmit={handleSubmit}>
+                        <div className='siderow'>
+                            <div className="row-lh">
+                                <label>Height:</label>
+                            </div>
+                            <div className="row-rh">
+                                <Field 
+                                    name="height" 
+                                    component={renderfield} 
+                                    type="number" 
+                                    label="Height" 
+                                    validate={composeValidators(required, mustBeNumber, maxValue(1000), minValue(-1000))} 
+                                    parse={value => parseDecimal(value)} />
+                            </div>
+                        </div>
+                        <div className='siderow'>
+                            <div className="row-lh">
+                                <label>Width:</label>
+                            </div>
+                            <div className="row-rh">
+                                <Field 
+                                    name="width" 
+                                    component={renderfield} 
+                                    type="number" 
+                                    label="Width" 
+                                    validate={composeValidators(required, mustBeNumber, maxValue(1000), minValue(-1000))} 
+                                    parse={value => parseDecimal(value)} />
+                            </div>        
+                        </div>
+                        <div className='siderow'>
+                            <button type="submit" disabled={submitting}>Submit</button>
+                            {/* <pre>{ JSON.stringify(values, undefined, 2) }</pre> */}
+                        </div>
+                    </form>
+                )}
+            </Form>
+        </div>
     )
 }
 
