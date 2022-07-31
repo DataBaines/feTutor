@@ -57,3 +57,10 @@ To Rebuild the typescript: Terminal - Run Build Task
 #: npx webpack
 
 Ctrl-F5 on the browser to clear the cache after a rebuild.
+
+#########################################################
+## Future Development and Fixes
+#########################################################
+
+- Learn more about GitHub integration
+- 
