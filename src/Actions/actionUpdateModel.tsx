@@ -1,6 +1,6 @@
 import { elementSelect, modelUpdateSuccess, openComponent, remodelPending} from './index';
 import FeInterface from '../FeModel/feInterface'
-import { enumControlColumnElement, IBoundaryParams } from '../Interfaces/IState';
+import { enumControlColumnElement, IBoundaryParams, IFe3SelElement } from '../Interfaces/IState';
 
 let feInterface = FeInterface();
 // from https://dev.to/markusclaus/fetching-data-from-an-api-using-reactredux-55ao
@@ -16,15 +16,19 @@ export function selectElementMiddleware(elementID: number) {
     }
 }
 
+// Write a synchronous outer function that receives the `dimensions` parameters:
 export function newModel(height: number, width: number) {
-    return async dispatch => {
+  // And then creates and returns the async thunk function:
+  return async function thunkfunc(dispatch) {
         dispatch(remodelPending(true));
+        console.log("thunkfunc1:" )
         //await delay(500) //Display the spinner...
-        await feInterface.CreateNewMesh1(height, width)
+        await feInterface.CreateNewMeshNotUsed(height, width)
+        console.log("thunkfunc2:" )
         const latestModel = combineModelComponents()
         dispatch(modelUpdateSuccess(latestModel))
         dispatch(remodelPending(false));
-        return latestModel
+        //return latestModel
     }
 }
 
@@ -35,7 +39,7 @@ export function addPerimeterNodes(axis: string, pos: number) {
         const latestModel = combineModelComponents()
         dispatch(modelUpdateSuccess(latestModel))
         dispatch(remodelPending(false));
-        return latestModel
+        //return latestModel
     }
 }
 
@@ -46,7 +50,7 @@ export function addMultiplePerimeterNodes(xQty: number, yQty: number) {
         const latestModel = combineModelComponents()
         dispatch(modelUpdateSuccess(latestModel))
         dispatch(remodelPending(false));
-        return latestModel
+        //return latestModel
     }
 }
 
@@ -60,7 +64,7 @@ export function generateMesh() {
         dispatch(modelUpdateSuccess(latestModel))
         dispatch(openComponent(enumControlColumnElement.Algebra))
         dispatch(remodelPending(false));
-        return latestModel
+        //return latestModel
     }
 }
 

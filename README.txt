@@ -64,3 +64,10 @@ Ctrl-F5 on the browser to clear the cache after a rebuild.
 
 - Learn more about GitHub integration
 - 
+
+
+
+PS C:\Users\ralph\Documents\VSCode\feTutor> node -v
+v18.12.1
+PS C:\Users\ralph\Documents\VSCode\feTutor> nvm use 16.19.0
+

@@ -6,7 +6,7 @@ import { gaussPress as gaussPressAction,
     globalPress as globalPressAction, 
     helpPress as helpPressAction} from '../Actions/index'
 import { IAppState, enumControlColumnElement } from '../Interfaces/IState'
-import {newModel} from '../Actions/actionUpdateModel'
+//import {newModel} from '../Actions/actionUpdateModel'
 import ThreeControl from './ThreeControl'
 import Instructions from './Instructions'
 import Algebra from './Algebra'

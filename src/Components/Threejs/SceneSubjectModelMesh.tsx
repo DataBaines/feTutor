@@ -91,7 +91,7 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
                 const isSelected = triangle.id === props.selElement.elementID
                 const {elementDepth, elementColour, elementColourSelected} = props.threeControl.content
 
-                createGeometryElement(p1, p2, p3, triangle.id, isSelected, elementDepth, elementColour, elementColourSelected)                
+                createBufferGeometryElement(p1, p2, p3, triangle.id, isSelected, elementDepth, elementColour, elementColourSelected)                
             }
         } 
 
@@ -242,7 +242,8 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
 
 	}
   
-    function createGeometryElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
+    // Geomtery is now obsolete, change to BufferGeometry
+/*    function createGeometryElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
 		const dep = 1
         //const col = isSelected ? THREE_COLOURS.ELEMENT_SELECTED:THREE_COLOURS.ELEMENT
         const col = isSelected ? colourSelected:colour
@@ -251,8 +252,9 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
         // Create a block of the element
         var x = 0, y = 0;
 
-        const geo = new THREE.Geometry()
-        geo.vertices.push(
+        //https://discourse.threejs.org/t/three-geometry-will-be-removed-from-core-with-r125/22401
+        const geo = new THREE.BufferGeometry()
+        geo. vertices.push(
             new THREE.Vector3(
                 (point1.x - transform.centreX) * transform.scale, 
                 (point1.y - transform.centreY) * transform.scale,
@@ -271,6 +273,51 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
         )
 
         geo.faces.push(new THREE.Face3(0, 1, 2))
+
+        const elementMesh = new THREE.Mesh( geo, elementMaterial ) ;
+		elementMesh.castShadow = true;
+        elementMesh.receiveShadow = true;
+        elementMesh.userData = {
+            objType: 'element', 
+            id: id,
+        }
+
+        shapes.add(elementMesh);
+	}
+    */
+
+    function createBufferGeometryElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
+		const dep = 1
+        const col = isSelected ? colourSelected:colour
+        // Change from MeshLambertMaterial
+        const elementMaterial = new THREE.MeshBasicMaterial( {color: col, wireframe:false});
+
+        //https://discourse.threejs.org/t/three-geometry-will-be-removed-from-core-with-r125/22401
+        const geo = new THREE.BufferGeometry()
+        const arr9point = new Float32Array( [
+            (point1.x - transform.centreX) * transform.scale, 
+            (point1.y - transform.centreY) * transform.scale,
+            (point1.z) * transform.zScale,
+              
+            (point2.x - transform.centreX) * transform.scale, 
+            (point2.y - transform.centreY) * transform.scale,
+            (point2.z) * transform.zScale,
+               
+            (point3.x - transform.centreX) * transform.scale, 
+            (point3.y - transform.centreY) * transform.scale,
+            (point3.z) * transform.zScale,
+        ]);
+
+        // specify triangles, as triplets of indexes into the vertex list.
+        const arr3point = new Float32Array([ 0.0, 1.0, 2.0, ])
+
+        // geo.vertices.push(
+        // )
+        geo.setAttribute( 'position', new THREE.BufferAttribute( arr9point, 3 ) );
+        //Removed - This now causes WebGL errors.
+        //geo.setIndex( new THREE.BufferAttribute( arr3point, 1 ) );
+
+        //geo.faces.push(new THREE.Face3(0, 1, 2))
 
         const elementMesh = new THREE.Mesh( geo, elementMaterial ) ;
 		elementMesh.castShadow = true;
@@ -311,23 +358,25 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
   
     function refreshAllSelectedElementColours(elementid: number, colour: string, colourSelected: string) {
 
-        let shape: THREE.Mesh
-        let material: THREE.MeshLambertMaterial
+        let material: THREE.MeshBasicMaterial
 
-        shapes.traverse(function( node ) {
+        shapes.traverse(function( element ) {
 
-            if ( node instanceof THREE.Mesh && node.userData && node.userData.objType == 'element' ) {
-                material = (node.material as THREE.MeshLambertMaterial) //Cast the base Material
+            if ( element instanceof THREE.Mesh && element.userData && element.userData.objType == 'element' ) {
+                material = (element.material as THREE.MeshBasicMaterial) //Cast the base Material
 
-                if(node.userData.id == elementid) {
+                if(element.userData.id == elementid) {
                     material.color.set( colourSelected );
+                    console.log(`colour element: ` + JSON.stringify( material.color));
                 }
                 else{
                     material.color.set( colour );
+                    
                 }
+                element.geometry.colorsNeedUpdate = true
             }
         } );
-
+        
 	}
 
     function refreshAllNodes(selectedNodeID: number) {

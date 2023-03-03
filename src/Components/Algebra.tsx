@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { gaussPress as gaussPressAction, 
     globalPress as globalPressAction, 
     helpPress as helpPressAction,
@@ -8,16 +8,20 @@ import { gaussPress as gaussPressAction,
 import { setBoundary } from '../Actions/actionUpdateModel'
 import AlgebraForm from './AlgebraForm'
 import { IAppState } from 'src/Interfaces/IState'
+import { ThunkDispatch } from 'redux-thunk'
+import { AnyAction } from 'redux'
 
 
 const Algebra = (props) => {
 
     const { dispatch, canSubmitAlgebraProp } = props
 
+    const thunkDispatch: ThunkDispatch<IAppState, undefined, AnyAction> = useDispatch()
+
     const handleClick = (values) => {
         // console.log(`Algebra: ${JSON.stringify(values)}`)
         dispatch(loadAlgebraAction(values))
-        dispatch(setBoundary(values)) //TODO should I pass 'values' here or should I be submitting the redux State that was set in the line above?
+        thunkDispatch(setBoundary(values)) //TODO should I pass 'values' here or should I be submitting the redux State that was set in the line above?
     }
 
     return (

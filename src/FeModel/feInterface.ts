@@ -1,5 +1,5 @@
 import { FeMesh } from './feMesh';
-import { IBoundaryParams } from '../Interfaces/IState';
+import { IBoundaryParams, IFe3SelElement } from '../Interfaces/IState';
 
 
 const FeInterface = () => {
@@ -127,7 +127,7 @@ const FeInterface = () => {
             return femesh.getStage()
         },
 
-        GetElementStiffness: function (elementID: number){
+        GetElementStiffness: function (elementID: number): IFe3SelElement{
             return femesh.getThreeElementStiffness(elementID)
         },
 

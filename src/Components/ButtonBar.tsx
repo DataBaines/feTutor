@@ -8,14 +8,14 @@ import { gaussPress as gaussPressAction,
     nodeMesh3DToggle as mesh3DPressAction} from '../Actions/index'
 import { IAppState } from '../Interfaces/IState'
 import {generateMesh as generateMeshAction} from '../Actions/actionUpdateModel'
-import CentreSection from './CentreSection'
-
+import { ThunkDispatch } from 'redux-thunk'
+import { AnyAction } from 'redux'
 
 const ButtonBar = (props) => {
   const handleMeshClick = () => dispatch(meshPressAction())
   const handleGaussClick = () => dispatch(gaussPressAction())
   const handleGlobalClick = () => dispatch(globalPressAction())
-  const handleGenerateClick = () => dispatch(generateMeshAction())
+  const handleGenerateClick = () => thunkDispatch(generateMeshAction())
   const handleHelpClick = () => dispatch(helpPressAction())
   const handleMoveNodeClick = () => dispatch(moveNodePressAction(!moveNodeMode.on))
   const handleMesh3DClick = () => dispatch(mesh3DPressAction(!mesh3D.on))
@@ -23,7 +23,8 @@ const ButtonBar = (props) => {
   const {help, moveNodeMode, mesh3D, centreSectionContent} = useSelector((state: IAppState) => state.buttons)
   const {canGenerateMesh, canShowGauss, canShowGlobal, canShowMoveNode, canShowMesh3D} = useSelector((state: IAppState) => state.fe3Mesh.flags)
   const dispatch = useDispatch()
-
+  const thunkDispatch: ThunkDispatch<IAppState, undefined, AnyAction> = useDispatch()
+  
   return (
       <span className="buttonbar">
           {centreSectionContent != "mesh" && <button className="centretabsel" onClick={handleMeshClick} >Mesh</button>}

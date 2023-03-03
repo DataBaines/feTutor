@@ -95,7 +95,7 @@ export interface IFe3SelNode{
     readonly nodeID: number
 }
 
-export interface IFe3SelElement{
+export interface IFe3SelElement2{
     readonly elementID: number,
     readonly stiffnessMatrix: {
         node1:{nodenumber: number, n1: number, n2: number, n3:number},
@@ -103,6 +103,9 @@ export interface IFe3SelElement{
         node3:{nodenumber: number, n1: number, n2: number, n3:number},
     },
 }
+
+//Added Partial to allow an empty object
+export interface IFe3SelElement extends Partial<IFe3SelElement2> {}
 
 export interface IFe3LinkbarState{
     readonly node1ID: number,

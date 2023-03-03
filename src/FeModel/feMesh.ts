@@ -3,7 +3,7 @@
 import {FeNode} from './feNode'
 import {FeElement} from './feElement'
 import { Initialise2dArray } from '../grid2d';
-import { IBoundaryParams, IFe3LinkbarState } from '../Interfaces/IState';
+import { IBoundaryParams, IFe3LinkbarState, IFe3SelElement } from '../Interfaces/IState';
 
 export class FeMesh {
     
@@ -13,16 +13,16 @@ export class FeMesh {
     public nodes = [] ;	//err3 = new double[];//	w=new FeNode[101];	//Start at node[1] need 101
     public nodeBR: FeNode;
     public nodeBL: FeNode;
-    public nodeTR:FeNode;
-    public nodeTL:FeNode;	//Corner nodes
+    public nodeTR: FeNode;
+    public nodeTL: FeNode;	//Corner nodes
     private nodeXPerimeter = []; //err1 = new double[];// = newFeNode[2*(MAXNODES-2)];	//Perimeter nodes excluding corners
     private nodeYPerimeter = []; //err2 = new double[];// = newFeNode[2*(MAXNODES-2)];	//Perimeter nodes
-    public  nodes2D; // 2D Array. = newFeNode[MAXNODES + 1][MAXNODES + 1];	//Start at nodetemp[0][0],[vert][hor]
-    public  element; //: Array<FeElement> = []; // = new Element[200];	//Start at element[1]
+    public  nodes2D: FeNode[][] = []; // 2D Array. = newFeNode[MAXNODES + 1][MAXNODES + 1];	//Start at nodetemp[0][0],[vert][hor]
+    public  element: FeElement[] = []; //: Array<FeElement> = []; // = new Element[200];	//Start at element[1]
 //    public  element = []; // = new Element[200];	//Start at element[1]
-	private matrix; // 2D Array.= new double[MAXNODES * MAXNODES][MAXNODES * MAXNODES]; //Start at matrix[0][0]
+	private matrix: number[][] = []; // 2D Array.= new double[MAXNODES * MAXNODES][MAXNODES * MAXNODES]; //Start at matrix[0][0]
 	//Array for logging the progress of Gauss Seidel converge for each iteration
-	public tgauss; // 2D Array.= new double[MAXNODES * MAXNODES][MAXLOOPS]; 
+	public tgauss: number[][] = []; // 2D Array.= new double[MAXNODES * MAXNODES][MAXLOOPS]; 
 	private height: number;
 	private width: number;
 	private widthRatio: number;
@@ -63,23 +63,29 @@ export class FeMesh {
 
 	private init2DArrays(){
 		let i: number
-
-		this.nodes2D = new Array(FeMesh.MAXNODES + 1)
+		
+		//this.nodes2D = new Array(FeMesh.MAXNODES + 1)
+		this.nodes2D = [];
+		this.nodes2D.length = FeMesh.MAXNODES + 1
+		console.log(`nodes:` + this.nodes2D.length )
 		for (i = 0; i < this.nodes2D.length; i++) {
-			this.nodes2D[i] = new Array(FeMesh.MAXNODES + 1);  //Start at nodetemp[0][0],[vert][hor]
+			//this.nodes2D[i] = new Array(FeMesh.MAXNODES + 1);  //Start at nodetemp[0][0],[vert][hor]
+			this.nodes2D[i] = []
+			this.nodes2D[i].length = FeMesh.MAXNODES + 1
 		}
 
-		this.matrix = new Array(FeMesh.MAXNODES * FeMesh.MAXNODES)
+		//this.matrix = new Array(FeMesh.MAXNODES * FeMesh.MAXNODES)
+		this.matrix = Array(FeMesh.MAXNODES * FeMesh.MAXNODES)
 		for (i = 0; i < this.matrix.length; i++) {
-			this.matrix[i] = new Array(FeMesh.MAXNODES * FeMesh.MAXNODES);  //Start at matrix[0][0]
+			this.matrix[i] = Array(FeMesh.MAXNODES * FeMesh.MAXNODES);  //Start at matrix[0][0]
 		}
 
-		this.tgauss = new Array(FeMesh.MAXNODES * FeMesh.MAXNODES)
+		this.tgauss = Array(FeMesh.MAXNODES * FeMesh.MAXNODES)
 		for (i = 0; i < this.tgauss.length; i++) {
-			this.tgauss[i] = new Array(FeMesh.MAXLOOPS);  
+			this.tgauss[i] = Array(FeMesh.MAXLOOPS);  
 		}
 		
-		this.element = new Array(FeMesh.MAXNODES * FeMesh.MAXNODES * 2);
+		this.element = Array(FeMesh.MAXNODES * FeMesh.MAXNODES * 2);
 	}
 
 	private createCornerNodes()
@@ -509,8 +515,8 @@ export class FeMesh {
 
 		let row: number
 		let col: number
-		let thisVal: number
-		let prevVal: number
+		let thisVal: string
+		let prevVal: string
 		let maxIter = 1
 
 		for(row=0; row < this.nodeQty; row++) {
@@ -699,7 +705,7 @@ export class FeMesh {
 		}
 	}
 
-	public getThreeElementStiffness(elementID: number){
+	public getThreeElementStiffness(elementID: number): IFe3SelElement{
 		const element = this.element[elementID]
 
 		switch (this.stage) {
