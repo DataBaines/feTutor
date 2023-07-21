@@ -17,12 +17,8 @@ const statelessRowComp = props => {
 }
 
 const GlobalGrid = (props) => {
-
-  //const {gaussPress, generatePress, helpPress, globalPress, gaussButtonProps, generateButtonProps, helpButtonProps, globalButtonProps } = buttonsProps
   const { dispatch } = props
-
   const {head, rows} = useSelector((state: IAppState) => state.fe3Mesh.globalStiffness)
-
   const handleClick = () => props.generateClick() 
 
   return (
@@ -45,11 +41,6 @@ const GlobalGrid = (props) => {
       }
     </div>
   )
-  
 }
 
-
-export default connect(
-  null, 
-  null
-  )(GlobalGrid)
+export default GlobalGrid

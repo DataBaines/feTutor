@@ -1,7 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-//import { connect } from 'react-redux'
-//import { Field, reduxForm } from 'redux-form' //moved to final 
 import { Form, Field } from 'react-final-form'
 import {  required, minValue, composeValidators, parseDecimal, maxValue, mustBeNumber } from './Validate'
 
@@ -10,10 +7,6 @@ const initData = {
     // used to populate reducer when "Load" is clicked
     height: 1,
     width: 1
-}
-
-const handleSub = (values) => {
-    console.log(values.height, values.width)
 }
 
 const renderfield = ({ input, label, type, meta: { touched, error, warning } }) => {

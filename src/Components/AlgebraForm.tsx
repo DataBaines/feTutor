@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
-import { isaNumber} from './FieldLevelValidation'
 import {composeValidators, minValue, maxValue, parseDecimal, requiredNumber as required, mustBeNumber} from './Validate'
 
 const initData = {
@@ -187,5 +185,3 @@ const AlgebraForm = props => {
 }
 
 export default AlgebraForm
-
-

@@ -11,7 +11,7 @@ import {generateMesh as generateMeshAction} from '../Actions/actionUpdateModel'
 import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 
-const ButtonBar = (props) => {
+const ButtonBar = () => {
   const handleMeshClick = () => dispatch(meshPressAction())
   const handleGaussClick = () => dispatch(gaussPressAction())
   const handleGlobalClick = () => dispatch(globalPressAction())

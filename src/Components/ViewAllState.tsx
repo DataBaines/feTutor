@@ -1,8 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { IAppState } from 'src/Interfaces/IState'
 
 const ViewAllState = ({ allState }) => {
     let ht = `You submitted:\n${JSON.stringify(allState, null, ' ')}`
+    const state = useSelector((state: IAppState) => state)
 
     const styles ={
         color: 'purple',
@@ -18,8 +20,4 @@ const ViewAllState = ({ allState }) => {
     )
 }
 
-const mapStateToProps = (state) => {   
-    return{ allState: state }
-}
-
-export default connect(mapStateToProps)(ViewAllState)
+export default ViewAllState

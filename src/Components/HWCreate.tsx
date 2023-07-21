@@ -34,7 +34,3 @@ const HWCreate = (props) => {
 }
 
 export default HWCreate
-// export default connect(
-//   null, 
-//   null
-//   )(HWCreate)

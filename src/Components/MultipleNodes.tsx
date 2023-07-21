@@ -19,14 +19,6 @@ const renderfield = ({ input, label, type, meta: { touched, error, warning } }) 
 }
 
 const MultipleNodes = (props) => {
-
-    // const {stage} = useSelector((state: IAppState) => state.fe3Mesh)
-    // const dispatch = useDispatch()
-  
-    // const { dispatch } = props
-    // const handleClick = (values) => dispatch(newModel(values.height, values.width))
-    const handleSubmit = props.submitHandler
-
     return (
         <div className="formcontainer">
             <Form initialValues={initData} onSubmit={props.submitHandler}> 
@@ -70,12 +62,7 @@ const MultipleNodes = (props) => {
             )}
         </Form>
     </div>
-
     )
 }
 
 export default MultipleNodes
-// export default connect(
-//   null, 
-//   null
-//   )(HWCreate)

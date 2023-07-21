@@ -1,13 +1,10 @@
-
 import React, {useEffect} from 'react'
-import PropTypes from 'prop-types'
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { IAppState } from '../Interfaces/IState'
 
 const ElementStiffness = (props) => {
   const { dispatch } = props
   const {elementID, stiffnessMatrix} = useSelector((state: IAppState) => state.selElement)
-  //const handleClick = () => props.generateClick()
   const sm = stiffnessMatrix
 
   function ThreeSF(val1: number) {
@@ -51,34 +48,4 @@ const ElementStiffness = (props) => {
   )
 }
 
-// Fe3Mesh.propTypes = {
-//     node: PropTypes.shape({
-//       PropTypes.shape({
-//         id: PropTypes.number.isRequired,
-//         completed: PropTypes.bool.isRequired,
-//         text: PropTypes.string.isRequired
-//       }).isRequired}
-//     ).isRequired,
-//     linkBar: PropTypes.func.isRequired,
-//     triangle: PropTypes.func.isRequired
-//   }
-
-// const mapStateToProps = (allState: IAppState) => {   
-//     return{ 
-//       gaussButtonProps: allState.buttons.gauss,
-//     }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     //gaussPress: () => {dispatch(gaussPressAction())},
-//     generateClick: () => {dispatch(generateMeshAction())},
-//     //globalPress: () => {dispatch(globalPressAction())},
-//     //helpPress: () => {dispatch(helpPressAction())},
-//   }
-// }
-
-export default connect(
-  null, 
-  null
-  )(ElementStiffness)
+export default ElementStiffness

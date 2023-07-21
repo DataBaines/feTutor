@@ -16,21 +16,6 @@ const SidebarAlgebra: React.FC<{ CloseHandler: ()=>void; }>
     return(
         <div id="mySidenav" className="sidenav">
             <a href="#!" className="closebtn" onClick={clickFn}>&times;</a>
-            {/* <form>
-                <table id="tab1">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th className="tabletitle">Title</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {axisComponents}
-                    </tbody>
-                </table> 
-            </form> */}
-
             <Algebra/>
         </div>
     )

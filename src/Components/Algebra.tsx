@@ -1,10 +1,7 @@
 import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { connect, useDispatch } from 'react-redux'
-import { gaussPress as gaussPressAction, 
-    globalPress as globalPressAction, 
-    helpPress as helpPressAction,
-    loadAlgebra as loadAlgebraAction} from '../Actions/index'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { loadAlgebra as loadAlgebraAction} from '../Actions/index'
 import { setBoundary } from '../Actions/actionUpdateModel'
 import AlgebraForm from './AlgebraForm'
 import { IAppState } from 'src/Interfaces/IState'
@@ -12,11 +9,11 @@ import { ThunkDispatch } from 'redux-thunk'
 import { AnyAction } from 'redux'
 
 
-const Algebra = (props) => {
+const Algebra = () => {
 
-    const { dispatch, canSubmitAlgebraProp } = props
-
+    const {canSubmitAlgebra} = useSelector((state: IAppState) => state.fe3Mesh.flags)
     const thunkDispatch: ThunkDispatch<IAppState, undefined, AnyAction> = useDispatch()
+    const dispatch = useDispatch()
 
     const handleClick = (values) => {
         // console.log(`Algebra: ${JSON.stringify(values)}`)
@@ -26,27 +23,9 @@ const Algebra = (props) => {
 
     return (
         <div>
-            <AlgebraForm submitHandler={handleClick} enableSubmit={canSubmitAlgebraProp}/>
+            <AlgebraForm submitHandler={handleClick} enableSubmit={canSubmitAlgebra}/>
         </div> 
     )
 }
 
-const mapStateToProps = (allState: IAppState) => {   
-    return{ 
-      canSubmitAlgebraProp: allState.fe3Mesh.flags.canSubmitAlgebra,
-    }
-}
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     //gaussPress: () => {dispatch(gaussPressAction())},
-//     generateClick: () => {dispatch(generateMeshAction())},
-//     //globalPress: () => {dispatch(globalPressAction())},
-//     //helpPress: () => {dispatch(helpPressAction())},
-//   }
-// }
-
-export default connect(
-  mapStateToProps, 
-  null
-  )(Algebra)
+export default Algebra

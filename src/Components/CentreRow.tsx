@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { IAppState } from '../Interfaces/IState'
 import ControlColumn from './ControlColumn'
 import CentreSection from './CentreSection'
@@ -11,7 +11,8 @@ const CentreRow = (props) => {
         console.log("Help open props change event")
     }, [props])
 
-    let dynW = props.openHelp.width
+    const {width} = useSelector((state: IAppState) => state.openHelp)
+    let dynW = width
 
     return (
         <div className="centrerow">
@@ -28,14 +29,4 @@ const CentreRow = (props) => {
     )
 }
 
-const mapStateToProps = (allState: IAppState) => {   
-    return{ 
-        openHelp: allState.openHelp     
-    }
-  }
-  
-export default connect(
-    mapStateToProps, 
-    null
-)
-(CentreRow)
+export default CentreRow

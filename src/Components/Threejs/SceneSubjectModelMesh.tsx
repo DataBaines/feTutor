@@ -1,7 +1,6 @@
 import { ILinkbarUserData } from '../../Interfaces/IModel';
 import * as THREE from 'three'
-import THREE_COLOURS from './ThreeColours';
-import { I3Point, IAppState, IFe3NodeState } from '../../Interfaces/IState';
+import { I3Point, IFe3NodeState } from '../../Interfaces/IState';
 
 /*************************************************
  * Creates the ThreeJS model from the Java object
@@ -33,7 +32,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
     let shapes: THREE.Object3D
     shapes = new THREE.Object3D();
     group.add(shapes)
-    //group.add(subjectWireframe)
     scene.add(group)
     
     function onMeshChange(modelProps: any) {
@@ -159,7 +157,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
 			//Make a cylinder
 		const radiusTopBottom = radius;
         let cylinderHeight = vectorDistance(point1, point2, transform.scale, transform.zScale);
-        // let cylinderHeightScaled = cylinderHeight * transform.scale
         const xyHyp = point1.x - point2.x
 
         let originOffsetvalue = 0
@@ -200,92 +197,7 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
 		//console.log("cylinder x:" + radiansToDegrees(cylinder.rotation.x) + " z:" + radiansToDegrees(cylinder.rotation.z) + " ht:" + cylinderHeight )
 	}
 
-    function createElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
-		const dep = 1
-        //const col = isSelected ? THREE_COLOURS.ELEMENT_SELECTED:THREE_COLOURS.ELEMENT
-        const col = isSelected ? colourSelected:colour
-        const elementMaterial = new THREE.MeshLambertMaterial( {color: col, wireframe:false});
-
-        // Create a block of the element
-        var x = 0, y = 0;
-
-        var elementShape = new THREE.Shape();
-
-        elementShape.moveTo((point1.x - transform.centreX) * transform.scale, (point1.y - transform.centreY) * transform.scale);
-        elementShape.lineTo((point2.x - transform.centreX) * transform.scale, (point2.y - transform.centreY) * transform.scale);
-        elementShape.lineTo((point3.x - transform.centreX) * transform.scale, (point3.y - transform.centreY) * transform.scale);
-
-        const extrudeSettings = { 
-            depth:  elDepth,    
-            bevelEnabled: false,     
-        };
-          
-        const geometry = new THREE.ExtrudeGeometry(elementShape, extrudeSettings);
-        geometry.center()
-        const elementMesh = new THREE.Mesh( geometry, elementMaterial ) ;
-		elementMesh.castShadow = true;
-        elementMesh.receiveShadow = true;
-        elementMesh.userData = {
-            objType: 'element', 
-            id: id,
-        }
-
-        const planeBoundaries = findPlaneBoundaries(point1, point2, point3)
-        elementMesh.position.x = (planeBoundaries.midx - transform.centreX) * transform.scale
-		elementMesh.position.y = (planeBoundaries.midy - transform.centreY) * transform.scale
-		elementMesh.position.z = (planeBoundaries.midx - transform.centreZ) * transform.zScale// 0
-
-        elementMesh.rotation.x = degreesToRadians(calcAngle((planeBoundaries.maxy - point2.y) * transform.scale, (point1.z - point2.z) * transform.zScale) )
-        elementMesh.rotation.y = degreesToRadians(0)
-        elementMesh.rotation.z = degreesToRadians(calcAngle(calcHyp((point1.y - point2.y) * transform.scale, (point1.z - point2.z) * transform.zScale), (point1.x - point2.x) * transform.scale ) * -1.00)
-        shapes.add(elementMesh);
-
-	}
-  
-    // Geomtery is now obsolete, change to BufferGeometry
-/*    function createGeometryElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
-		const dep = 1
-        //const col = isSelected ? THREE_COLOURS.ELEMENT_SELECTED:THREE_COLOURS.ELEMENT
-        const col = isSelected ? colourSelected:colour
-        const elementMaterial = new THREE.MeshLambertMaterial( {color: col, wireframe:false});
-
-        // Create a block of the element
-        var x = 0, y = 0;
-
-        //https://discourse.threejs.org/t/three-geometry-will-be-removed-from-core-with-r125/22401
-        const geo = new THREE.BufferGeometry()
-        geo. vertices.push(
-            new THREE.Vector3(
-                (point1.x - transform.centreX) * transform.scale, 
-                (point1.y - transform.centreY) * transform.scale,
-                (point1.z) * transform.zScale,
-                ),
-            new THREE.Vector3(                
-                (point2.x - transform.centreX) * transform.scale, 
-                (point2.y - transform.centreY) * transform.scale,
-                (point2.z) * transform.zScale,
-            ),
-            new THREE.Vector3(                
-                (point3.x - transform.centreX) * transform.scale, 
-                (point3.y - transform.centreY) * transform.scale,
-                (point3.z) * transform.zScale,
-            ),
-        )
-
-        geo.faces.push(new THREE.Face3(0, 1, 2))
-
-        const elementMesh = new THREE.Mesh( geo, elementMaterial ) ;
-		elementMesh.castShadow = true;
-        elementMesh.receiveShadow = true;
-        elementMesh.userData = {
-            objType: 'element', 
-            id: id,
-        }
-
-        shapes.add(elementMesh);
-	}
-    */
-
+ 
     function createBufferGeometryElement(point1: I3Point, point2: I3Point, point3: I3Point, id: number, isSelected: boolean, elDepth: number, colour: string, colourSelected: string) {
 		const dep = 1
         const col = isSelected ? colourSelected:colour
@@ -462,16 +374,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
         maxDimension = smallest * 1.0
     }
 
-
-
-    // function deformGeometry(geometry: THREE.IcosahedronGeometry) {
-    //     for (let i=0; i<geometry.vertices.length; i+=2) {
-    //         const scalar = 1 + Math.random()*0.8;
-    //         geometry.vertices[i].multiplyScalar(scalar)
-    //     }
-    //     return geometry;
-    // }
-
 	//Define camera control setup
     function degreesToRadians(deg: number) {
         return deg * (Math.PI/180);
@@ -510,11 +412,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
         //console.log(`Centre3 x:${p1.x.toFixed(2)} ${p2.x.toFixed(2)} ${p3.x.toFixed(2)} mid:${midx.toFixed(2)}  y:${p1.y.toFixed(2)} ${p2.y.toFixed(2)} ${p3.y.toFixed(2)} ${midy.toFixed(2)} `)
         return {midx, midy, midz, minx, miny, minz, maxx, maxy, maxz}
 	}
-  
-    // function offsetPos(pos: number)
-    // {
-    //     return (pos * FESCALE) - (FESCALE * 0.5)
-    // }
 	
 	function highest(a: number, b: number){
 		return(a > b ? a: b)
@@ -591,7 +488,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
 
     return {
         update,
-        // onPropChange,
         onMeshChange,
         onSelectedNodeChange,
         onSelectedElementChange,
