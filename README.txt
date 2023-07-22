@@ -71,3 +71,17 @@ PS C:\Users\ralph\Documents\VSCode\feTutor> node -v
 v18.12.1
 PS C:\Users\ralph\Documents\VSCode\feTutor> nvm use 16.19.0
 
+PS C:\Users\ralph\Documents\VSCode\feTutor> npm list
+├── @react-three/fiber@8.11.2
+├── @reduxjs/toolkit@1.9.2
+...
+
+#########################################################
+## NPM Install Dependancy Issues
+#########################################################
+
+npm install --legacy-peer-deps
+OR npm config set --legacy-peer-deps true
+npm install --force
+npm cache clean --force
+
