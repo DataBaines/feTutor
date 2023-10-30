@@ -1,14 +1,15 @@
-import React from 'react'
+import React from "react";
+import HelpIcon from "./HelpIcon";
 
 const Navbar = () => {
-    return(       
-        <div className="navbar">
-            <h2>2D Finite Element Learning Tool</h2>
-            {/* <button>Save</button>
-            <button>Restart</button> */}
-            {/* <a href=''>Reset</a> */}
-        </div>
-    )
-}
+  return (
+    <div className="navbar">
+      <h2>
+        <HelpIcon id={1} />
+        2D Finite Element Learning Tool.
+      </h2>
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

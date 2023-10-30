@@ -1,19 +1,23 @@
-import React, {useEffect} from 'react'
-import { useSelector } from 'react-redux'
-import { IAppState } from '../Interfaces/IState'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { IAppState } from "../Interfaces/IState";
+import HelpIcon from "./HelpIcon";
 
 const ElementStiffness = (props) => {
-  const { dispatch } = props
-  const {elementID, stiffnessMatrix} = useSelector((state: IAppState) => state.selElement)
-  const sm = stiffnessMatrix
+  const { dispatch } = props;
+  const { elementID, stiffnessMatrix } = useSelector(
+    (state: IAppState) => state.selElement
+  );
+  const sm = stiffnessMatrix;
 
   function ThreeSF(val1: number) {
-    return Number( val1.toPrecision(3) )
+    return Number(val1.toPrecision(3));
   }
 
   return (
     <div className="elemstiff">
-      <p>Element: {elementID}</p>
+      
+      <p><HelpIcon id={2} />Element No.: {elementID}</p>
       <table className="elemstifftable">
         <thead>
           <tr>
@@ -45,7 +49,7 @@ const ElementStiffness = (props) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default ElementStiffness
+export default ElementStiffness;
