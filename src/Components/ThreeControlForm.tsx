@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import PropTypes from 'prop-types'
 import { Form, Field } from 'react-final-form'
 
 import { composeValidators, required, mustBeNumber, maxValue, minValue, parseDecimal } from './Validate'

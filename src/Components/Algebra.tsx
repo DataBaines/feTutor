@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { loadAlgebra as loadAlgebraAction} from '../Actions/index'
 import { setBoundary } from '../Actions/actionUpdateModel'
