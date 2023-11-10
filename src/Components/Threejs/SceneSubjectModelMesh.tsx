@@ -6,6 +6,14 @@ import { I3Point, IFe3NodeState } from '../../Interfaces/IState';
  * Creates the ThreeJS model from the Java object
  * Rebuild triggered by a change in the modelProps
  *************************************************/
+
+/**
+ * Creates the ThreeJS model from the Java object
+ * Rebuild triggered by a change in the modelProps
+ * @param scene 
+ * @param modelProps 
+ * @returns 
+ */
 const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {    
     const group = new THREE.Group();
 
@@ -472,17 +480,6 @@ const SceneSubjectStaticMesh = (scene: THREE.Scene, modelProps) => {
 
     function update(time: number) {
         const angle = time//*speed;
-
-        //group.rotation.y = angle;
-
-        //Changed material
-        //material.alphaMap.offset.y = 0.55 + time * textureOffsetSpeed;
-
-        //To Fix !!!!!!!!!!!!!!!
-        //subjectWireframe.material.color.setHSL( Math.sin(angle*2), 0.5, 0.5 );
-        
-        //const scale = (Math.sin(angle*8)+6.4)/5;
-        //subjectWireframe.scale.set(scale, scale, scale)
     }
 
 

@@ -42,10 +42,8 @@ const SceneManager = (
   const scene = buildScene();
   const renderer = buildRender(canvasClientDimensions);
   const camera = buildCamera(canvasClientDimensions);
-  //const sceneSubjects = createSceneSubjects(scene);
   const lights = GeneralLights(scene);
   const sceneSubjectModelMesh = SceneSubjectStaticMesh(scene, modelProps);
-
   const sceneSubjects = [lights, sceneSubjectModelMesh];
   const raycaster = new THREE.Raycaster();
 
@@ -91,18 +89,6 @@ const SceneManager = (
 
     return camera;
   }
-
-  // function createSceneSubjects(scene: THREE.Scene) {
-
-  //     const lights = GeneralLights(scene)
-  //     const sceneSubject = SceneSubjectStaticMesh(scene, modelProps)
-
-  //     const sceneSubjects = [
-  //         lights,
-  //         sceneSubject
-  //     ]
-  //     return sceneSubjects;
-  // }
 
   const mouseStatus = {
     x: 0,
@@ -157,12 +143,8 @@ const SceneManager = (
 
   function onMouseUp(x: number, y: number) {
     mouseStatus.mouseDown = false;
-
     //Check for a >3 pixel move in any direction
     let clickedObj: any;
-    // let dx = x - mouseStatus.startMouseX;
-    // let dy = y - mouseStatus.startMouseY;
-
     let intersects = FindRaycasterIntersections(x, y);
 
     for (let i = 0; i < intersects.length; i++) {
@@ -238,6 +220,12 @@ const SceneManager = (
     }
   }
 
+  /**
+   * Find the objects that the picking 'ray' passes through
+   * @param x X position on the Page
+   * @param y Y position on the Page
+   * @returns All intersection objects
+   */
   function FindRaycasterIntersections(x: number, y: number) {
     // for Raycaster to look for click objects, where is the canvas within the webpage?
     const rect = canvas.getBoundingClientRect();
@@ -256,10 +244,11 @@ const SceneManager = (
     return intersects;
   }
 
-  // function writeToFile(object1) {
-  //     fs.writeFile('./feLog.json', JSON.stringify(object1, null, 2),'utf8', null )
-  // }
-
+  /**
+   * Return the number to 3 significant figures
+   * @param val1 number to convert
+   * @returns
+   */
   function ThreeSF(val1: number) {
     return Number(val1.toPrecision(3));
   }
@@ -276,19 +265,10 @@ const SceneManager = (
     for (let i = 0; i < sceneSubjects.length; i++)
       sceneSubjects[i].update(elapsedTime);
 
-    //updateCameraPositionRelativeToMouse();
-    //setupMouseCamera()
     camera.lookAt(scene.position);
-    //camera.lookAt(5, 5, 5) //slightly off the origin
-
     renderer.render(scene, camera);
+    console.log("SceneManager.update: " + sceneSubjects.length);
   }
-
-  // function updateCameraPositionRelativeToMouse() {
-  //     camera.position.x += (  (mousePosition.x * 0.01) - camera.position.x ) * 0.01;
-  //     camera.position.y += ( -(mousePosition.y * 0.01) - camera.position.y ) * 0.01;
-  //     camera.lookAt(origin);
-  // }
 
   // cascade model changes to the UI.
   function onWindowResize() {
@@ -344,39 +324,6 @@ const SceneManager = (
     onSelectedElementChange,
     onMoveNodesChange,
   };
-
-  //Function not needed!!!!!!!!!!!!!!
-  function findClickedCylinderYPosition(
-    clickedCylinder: THREE.Object3D,
-    clickPoint
-  ) {
-    let pivotGroup = new THREE.Group();
-    pivotGroup.position.set(
-      clickedCylinder.position.x,
-      clickedCylinder.position.y,
-      clickedCylinder.position.z
-    );
-    let clickObj3D = new THREE.Object3D();
-    clickObj3D.position.set(clickPoint.x, clickPoint.y, clickPoint.z);
-    pivotGroup.add(clickObj3D);
-
-    pivotGroup.rotateX(clickedCylinder.rotation.x * -1);
-    pivotGroup.rotateZ(clickedCylinder.rotation.z * -1);
-    let clickWorldPosition = new THREE.Vector3();
-    clickObj3D.getWorldPosition(clickWorldPosition);
-    let yDistance = pivotGroup.position.y - clickWorldPosition.y;
-    let yCylHeight = clickedCylinder.userData.height;
-    let pos = (yCylHeight / 2 + yDistance) / yCylHeight;
-    console.log(
-      "clicked Cyl position:" +
-        yDistance +
-        " height:" +
-        yCylHeight +
-        " pos: " +
-        pos
-    );
-    return pos;
-  }
 };
 
 export default SceneManager;
